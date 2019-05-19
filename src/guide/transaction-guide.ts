@@ -1,31 +1,45 @@
+import IntergalacticUnit from "./intergalactic-unit";
+import PriceRule from "./price-rule";
 import Question from "./question";
-import TransactionConstants from "./transaction-constant";
+
+import GuideConstants from "./guide-constants";
 
 class TransactionGuide {
-  private readonly rules: string[];
+  private answers: string[] = [];
+  private intergalacticUnits: Map<string, number> = new Map();
   private products: Map<string, number>;
 
-  constructor(rules: string[]) {
-    this.rules = rules;
-    this.processRules = this.processRules.bind(this);
-    this.query = this.query.bind(this);
+  public processNote(typedNote: string): void {
+    const formattedTypedNote = typedNote.trim();
+
+    if (Question.validate(formattedTypedNote)) {
+      const question = new Question(formattedTypedNote);
+      this.computeQuestion(question);
+    } else if (PriceRule.validate(formattedTypedNote)) {
+      const priceRule = new PriceRule(formattedTypedNote);
+      this.computePriceRule(priceRule);
+    } else if (IntergalacticUnit.validate(formattedTypedNote)) {
+      const intergalacticUnit = new IntergalacticUnit(formattedTypedNote);
+      this.computeIntergalacticUnit(intergalacticUnit);
+    } else {
+      this.answers.push(GuideConstants.unknownNoteAnswer);
+    }
   }
 
-  public processRules(): void {
-    const validatedRules = this.validateAndFormatRules();
-    console.log(validatedRules);
+  public computeIntergalacticUnit(intergalacticUnit: IntergalacticUnit): void {
+    this.intergalacticUnits.set(intergalacticUnit.name, intergalacticUnit.value);
   }
 
-  // TODO
-  public query(question: Question): string {
-    return "";
+  public computePriceRule(priceRule: PriceRule): void {
+    const value = "";
   }
 
-  private validateAndFormatRules(): any[] {
-    return this.rules
-      .map((rule) => rule.match(TransactionConstants.ruleRegex))
-      .filter((rule) => Array.isArray(rule))
-      .map((rule) => rule.groups);
+  public computeQuestion(question: Question): void {
+
+  }
+
+  public getAnswers(): string[] {
+    return this.answers;
   }
 }
 
