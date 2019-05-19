@@ -6,8 +6,8 @@ import GuideConstants from "./guide-constants";
 
 class TransactionGuide {
   private answers: string[] = [];
-  private intergalacticUnits: Map<string, number> = new Map();
-  private products: Map<string, number> = new Map();
+  private intergalacticUnitsMap: Map<string, number> = new Map();
+  private productsMap: Map<string, number> = new Map();
 
   public processNote(typedNote: string): void {
     const formattedTypedNote = typedNote.trim();
@@ -27,20 +27,18 @@ class TransactionGuide {
   }
 
   public computeIntergalacticUnit(intergalacticUnit: IntergalacticUnit): void {
-    this.intergalacticUnits.set(intergalacticUnit.name, intergalacticUnit.value);
+    this.intergalacticUnitsMap.set(intergalacticUnit.name, intergalacticUnit.decimal);
   }
 
   public computePriceRule(priceRule: PriceRule): void {
-    const amountOfProduct = priceRule.intergalacticUnits.reduce((sum: number, intergalacticUnitName: string) => {
-      const intergalacticUnitValue = this.intergalacticUnits.get(intergalacticUnitName);
-      return sum + intergalacticUnitValue;
-    }, 0);
-    const productPrice = priceRule.value / amountOfProduct;
-    this.products.set(priceRule.product, productPrice);
+    const productPrice = priceRule.calculateProductPrice(this.intergalacticUnitsMap);
+    this.productsMap.set(priceRule.product, productPrice);
   }
 
-  public computeQuestion(question: Question): void {
-
+  public computeQuestion(question: Question): string {
+    const answer = question.getAnswer(this.intergalacticUnitsMap, this.productsMap);
+    this.answers.push(answer);
+    return answer;
   }
 
   public getAnswers(): string[] {

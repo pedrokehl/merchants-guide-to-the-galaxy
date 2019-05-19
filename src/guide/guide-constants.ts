@@ -1,6 +1,6 @@
 const GuideConstants = {
   identifyNoteRegex: {
-    intergalacticUnit: /(?<intergalacticUnit>.+) is (?<value>\w+)/,
+    intergalacticUnit: /(?<intergalacticUnit>.+) is (?<romanNumeral>\w+)/,
     priceRule: /(?<intergalacticUnits>.+) (?<product>\w+) is (?<value>\d+)( Credits)/,
     question: /.+\?/,
   },

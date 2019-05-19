@@ -8,7 +8,7 @@ class PriceRule implements Note {
   }
 
   public product: string;
-  public value: number;
+  public credits: number;
   public intergalacticUnits: string[];
   public readonly typedNote: string;
 
@@ -20,8 +20,16 @@ class PriceRule implements Note {
   public process(): void {
     const regexResult = this.typedNote.match(GuideConstants.identifyNoteRegex.priceRule);
     this.product = regexResult.groups.product;
-    this.value = parseInt(regexResult.groups.value);
+    this.credits = parseInt(regexResult.groups.value);
     this.intergalacticUnits = regexResult.groups.intergalacticUnits.split(" ");
+  }
+
+  public calculateProductPrice(intergalacticUnitsMap: Map<string, number>): number {
+    const amountOfProduct = this.intergalacticUnits.reduce((sum: number, intergalacticUnitName: string) => {
+      const intergalacticUnitValue = intergalacticUnitsMap.get(intergalacticUnitName);
+      return sum + intergalacticUnitValue;
+    }, 0);
+    return this.credits / amountOfProduct;
   }
 }
 

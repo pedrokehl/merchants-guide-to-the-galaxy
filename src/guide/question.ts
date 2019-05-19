@@ -18,6 +18,10 @@ class Question implements Note {
   public process(): void {
     this.products = [];
   }
+
+  public getAnswer(intergalacticUnitsMap: Map<string, number>, productsMap: Map<string, number>): string {
+    return "answer";
+  }
 }
 
 export default Question;

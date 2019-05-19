@@ -10,7 +10,7 @@ class IntergalacticUnit implements Note {
 
   public typedNote: string;
   public name: string;
-  public value: number;
+  public decimal: number;
 
   constructor(typedNote: string) {
     this.typedNote = typedNote;
@@ -20,8 +20,8 @@ class IntergalacticUnit implements Note {
   public process(): void {
     const regexResult = this.typedNote.match(GuideConstants.identifyNoteRegex.intergalacticUnit);
     this.name = regexResult.groups.intergalacticUnit;
-    const romanNumerals = regexResult.groups.value;
-    this.value = RomanConverter.convertToNumber(romanNumerals);
+    const romanNumeral = regexResult.groups.romanNumeral;
+    this.decimal = RomanConverter.convertToNumber(romanNumeral);
   }
 }
 
