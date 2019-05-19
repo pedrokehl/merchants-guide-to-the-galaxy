@@ -7,7 +7,7 @@ import GuideConstants from "./guide-constants";
 class TransactionGuide {
   private answers: string[] = [];
   private intergalacticUnits: Map<string, number> = new Map();
-  private products: Map<string, number>;
+  private products: Map<string, number> = new Map();
 
   public processNote(typedNote: string): void {
     const formattedTypedNote = typedNote.trim();
@@ -31,7 +31,12 @@ class TransactionGuide {
   }
 
   public computePriceRule(priceRule: PriceRule): void {
-    const value = "";
+    const amountOfProduct = priceRule.intergalacticUnits.reduce((sum: number, intergalacticUnitName: string) => {
+      const intergalacticUnitValue = this.intergalacticUnits.get(intergalacticUnitName);
+      return sum + intergalacticUnitValue;
+    }, 0);
+    const productPrice = priceRule.value / amountOfProduct;
+    this.products.set(priceRule.product, productPrice);
   }
 
   public computeQuestion(question: Question): void {
