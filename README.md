@@ -1,7 +1,7 @@
 # Merchant's Guide to the Galaxy
 
 
-# Pre-reqs
+# Requirements
 To build and run this app you just need [Node.js](https://nodejs.org/en/) installed.
 
 # Getting started
@@ -18,3 +18,7 @@ npm install
 ```
 npm start
 ```
+
+# Using
+
+By default the program is using the [input.txt](/input.txt) file, but you can also pass a file path through command line argument, e.a (npm start path=./other.txt)
