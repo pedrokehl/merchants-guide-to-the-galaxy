@@ -32,6 +32,9 @@ Unit tests are written using Jest with Typescript, you can run them with:
 npm test
 ```
 
+After you run the tests, a coverage report will be generated.  
+You can check it opening the path **_{PROJECT_PATH}/coverage/lcov-report/index.html_** in a browser.
+
 # Description
 
 You decided to give up on earth after the latest financial collapse left 99.99% of the earth's
