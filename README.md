@@ -14,16 +14,12 @@ git clone --depth=1 https://github.com/pedrokehl/galaxy-merchant-guide
 cd galaxy-merchant-guide
 npm install
 ```
-- Using
-By default the program is using the [input.txt](/input.txt) file.
+- Using  
+The program is using the [input.txt](/input.txt) file by default, But you can also pass a file path through command line argument
 
 ```
 npm start
-```
-
-But you can also pass a file path through command line argument
-
-```
+or
 npm start path=./other.txt
 ```
 
