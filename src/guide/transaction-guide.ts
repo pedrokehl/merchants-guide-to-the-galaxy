@@ -13,7 +13,7 @@ class TransactionGuide {
       const note = NoteFactory.getNote(typedNote.trim());
       note.process();
     });
-    return answersRepository.getAll();
+    return answersRepository.getAllValues();
   }
 }
 

@@ -9,7 +9,7 @@ abstract class Repository {
     this.data.set(key, value);
   }
 
-  public getAll(): any[] {
+  public getAllValues(): any[] {
     return Array.from(this.data.values());
   }
 }
