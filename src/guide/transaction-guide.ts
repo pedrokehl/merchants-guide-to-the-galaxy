@@ -10,7 +10,8 @@ class TransactionGuide {
 
   public process(): string[] {
     this.typedNotes.forEach((typedNote) => {
-      const note = NoteFactory.getNote(typedNote.trim());
+      const formattedTypedNote = typedNote.trim();
+      const note = NoteFactory.getNote(formattedTypedNote);
       note.process();
     });
     return answersRepository.getAllValues();

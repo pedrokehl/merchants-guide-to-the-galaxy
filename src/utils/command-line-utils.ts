@@ -1,8 +1,8 @@
 class CommandLineUtils {
   public static getArgument(argumentName: string): string {
     const args = process.argv;
-    const argumentPrefix = `${argumentName}=`;
-    const value = args.find((argument) => argument.startsWith(argumentPrefix));
+    const argumentPrefix = `${argumentName.toLowerCase()}=`;
+    const value = args.find((argument) => argument.toLowerCase().startsWith(argumentPrefix));
 
     if (!value) {
       return;

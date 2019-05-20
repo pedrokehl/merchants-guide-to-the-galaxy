@@ -1,6 +1,6 @@
 import fs from "fs";
 import readline from "readline";
-import {promisify} from "util";
+import { promisify } from "util";
 
 const existsPromisified = promisify(fs.exists);
 
