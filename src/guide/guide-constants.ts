@@ -4,9 +4,6 @@ const GuideConstants = {
     priceRule: /(?<intergalacticUnits>.+) (?<product>\w+) is (?<value>\d+)( Credits)/,
     question: /.+\?/,
   },
-  types: {
-    rule: "rule",
-  },
   unknownNoteAnswer: "I have no idea what you are talking about",
 };
 

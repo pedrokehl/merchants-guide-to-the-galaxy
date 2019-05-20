@@ -1,10 +1,10 @@
 import GuideProcessor from "./guide-processor";
-import FileProcessor from "./io/file-processor";
+import InputProcessor from "./io/input-processor";
 import OutputProcessor from "./io/output-processor";
 
 async function run(): Promise<void> {
   try {
-    const lines = await FileProcessor.readFileLines("./input.txt");
+    const lines = await InputProcessor.readLines("./input.txt");
     const results = new GuideProcessor(lines).process();
     OutputProcessor.writeLines(results);
   } catch (e) {

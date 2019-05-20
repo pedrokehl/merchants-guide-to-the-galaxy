@@ -1,6 +1,8 @@
-import RomanConverter from "../utils/roman-converter";
-import GuideConstants from "./guide-constants";
-import Note from "./note";
+import intergalacticUnitsRepository from "../../../repositories/intergalactic-units-repository";
+
+import RomanConverter from "../../../utils/roman-converter";
+import GuideConstants from "../../guide-constants";
+import Note from "../note";
 
 class IntergalacticUnit implements Note {
 
@@ -14,10 +16,14 @@ class IntergalacticUnit implements Note {
 
   constructor(typedNote: string) {
     this.typedNote = typedNote;
-    this.process();
+    this.onCreate();
   }
 
   public process(): void {
+    intergalacticUnitsRepository.set(this.name, this.decimal);
+  }
+
+  public onCreate(): void {
     const regexResult = this.typedNote.match(GuideConstants.identifyNoteRegex.intergalacticUnit);
     this.name = regexResult.groups.intergalacticUnit;
     const romanNumeral = regexResult.groups.romanNumeral;

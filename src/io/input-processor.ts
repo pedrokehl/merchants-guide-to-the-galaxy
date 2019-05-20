@@ -1,8 +1,8 @@
 import fs from "fs";
 import readline from "readline";
 
-class FileProcessor {
-  public static async readFileLines(path: string): Promise<string[]> {
+class InputProcessor {
+  public static async readLines(path: string): Promise<string[]> {
     const readInterface = readline.createInterface({ input: fs.createReadStream(path) });
     const lines = [];
 
@@ -13,4 +13,4 @@ class FileProcessor {
   }
 }
 
-export default FileProcessor;
+export default InputProcessor;

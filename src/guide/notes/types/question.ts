@@ -1,5 +1,5 @@
-import GuideConstants from "./guide-constants";
-import Note from "./note";
+import GuideConstants from "../../guide-constants";
+import Note from "../note";
 
 class Question implements Note {
 
@@ -10,7 +10,7 @@ class Question implements Note {
   public products: string[];
   public readonly typedNote: string;
 
-  constructor(typedNote: string) {
+  constructor(typedNote?: string) {
     this.typedNote = typedNote;
     this.process();
   }
