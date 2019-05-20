@@ -15,12 +15,12 @@ cd galaxy-merchant-guide
 npm install
 ```
 - Using  
-The program is using the [input.txt](/input.txt) file by default, But you can also pass a file path through command line argument
+The program is using the [input.txt](/inputs/input.txt) file by default, But you can also pass a file path through command line argument
 
 ```
 npm start
 or
-npm start path=./other.txt
+npm start path=./inputs/other.txt
 ```
 
 

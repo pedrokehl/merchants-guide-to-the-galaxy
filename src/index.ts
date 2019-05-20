@@ -5,7 +5,7 @@ import CommandLineUtils from "./utils/command-line-utils";
 
 async function run(): Promise<void> {
   try {
-    const path = CommandLineUtils.getArgument("path") || "./input.txt";
+    const path = CommandLineUtils.getArgument("path") || "./inputs/input.txt";
     const lines = await InputProcessor.readLines(path);
     const transactionGuide = new TransactionGuide(lines);
     transactionGuide.process();
