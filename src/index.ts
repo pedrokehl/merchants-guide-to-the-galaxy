@@ -7,7 +7,9 @@ async function run(): Promise<void> {
   try {
     const path = CommandLineUtils.getArgument("path") || "./input.txt";
     const lines = await InputProcessor.readLines(path);
-    const results = new TransactionGuide(lines).process();
+    const transactionGuide = new TransactionGuide(lines);
+    transactionGuide.process();
+    const results = transactionGuide.getAnswers();
     OutputProcessor.writeLines(results);
   } catch (e) {
     console.error(e.message);

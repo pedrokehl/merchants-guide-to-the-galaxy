@@ -8,12 +8,15 @@ class TransactionGuide {
     this.typedNotes = typedNotes;
   }
 
-  public process(): string[] {
+  public process(): void {
     this.typedNotes.forEach((typedNote) => {
       const formattedTypedNote = typedNote.trim();
       const note = NoteFactory.getNote(formattedTypedNote);
       note.process();
     });
+  }
+
+  public getAnswers(): string[] {
     return answersRepository.getAllValues();
   }
 }

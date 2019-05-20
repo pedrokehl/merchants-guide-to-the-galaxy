@@ -44,7 +44,7 @@ class Question implements Note {
       const productName = intergalacticUnits.pop();
       productPrice = productsRepository.get(productName);
 
-      if (productPrice === null || productPrice === undefined) {
+      if (typeof productPrice !== "number") {
         return this.getInvalidQuestion();
       }
     }
