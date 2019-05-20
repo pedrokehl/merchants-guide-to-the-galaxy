@@ -5,14 +5,10 @@ import GuideConstants from "../../guide-constants";
 import Note from "../note";
 
 class IntergalacticUnit implements Note {
-
-  public static validate(typedNote: string): boolean {
-    return GuideConstants.identifyNoteRegex.intergalacticUnit.test(typedNote);
-  }
-
-  public typedNote: string;
+  public readonly typedNote: string;
   public name: string;
   public decimal: number;
+  public romanNumeral: string;
 
   constructor(typedNote: string) {
     this.typedNote = typedNote;
@@ -20,14 +16,14 @@ class IntergalacticUnit implements Note {
   }
 
   public process(): void {
-    intergalacticUnitsRepository.set(this.name, this.decimal);
+    intergalacticUnitsRepository.set(this.name, this.romanNumeral);
   }
 
-  public onCreate(): void {
-    const regexResult = this.typedNote.match(GuideConstants.identifyNoteRegex.intergalacticUnit);
+  private onCreate(): void {
+    const regexResult = this.typedNote.match(GuideConstants.groupingRegex.intergalacticUnit);
     this.name = regexResult.groups.intergalacticUnit;
-    const romanNumeral = regexResult.groups.romanNumeral;
-    this.decimal = RomanConverter.convertToNumber(romanNumeral);
+    this.romanNumeral = regexResult.groups.romanNumeral;
+    this.decimal = RomanConverter.convertToNumber(this.romanNumeral);
   }
 }
 

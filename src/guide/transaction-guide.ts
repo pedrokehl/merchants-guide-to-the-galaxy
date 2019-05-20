@@ -1,24 +1,19 @@
+import answersRepository from "../repositories/answers-repository";
 import NoteFactory from "./notes/note-factory";
-import Question from "./notes/types/question";
 
 class TransactionGuide {
-  private answers: string[] = [];
-  private intergalacticUnitsMap: Map<string, number> = new Map();
-  private productsMap: Map<string, number> = new Map();
+  private readonly typedNotes: string[];
 
-  public processNote(typedNote: string): void {
-    const note = NoteFactory.getNote(typedNote.trim());
-    note.process();
+  constructor(typedNotes: string[] = []) {
+    this.typedNotes = typedNotes;
   }
 
-  public computeQuestion(question: Question): string {
-    const answer = question.getAnswer(this.intergalacticUnitsMap, this.productsMap);
-    this.answers.push(answer);
-    return answer;
-  }
-
-  public getAnswers(): string[] {
-    return this.answers;
+  public process(): string[] {
+    this.typedNotes.forEach((typedNote) => {
+      const note = NoteFactory.getNote(typedNote.trim());
+      note.process();
+    });
+    return answersRepository.getAll();
   }
 }
 
