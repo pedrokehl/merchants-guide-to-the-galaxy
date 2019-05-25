@@ -25,9 +25,9 @@ describe("Transaction Guide - Full scenario", () => {
       "how many Credits is glob prok Iron ?",
       "how much wood could a woodchuck chuck if a woodchuck could chuck wood ?",
     ];
-    const transactionGuide = new TransactionGuide(input);
-    transactionGuide.process();
-    const result = transactionGuide.getAnswers();
+    const transactionGuide = new TransactionGuide();
+    transactionGuide.processMany(input);
+    const result = transactionGuide.getAllOrderedAnswers();
     const expectedOutput = [
       "pish tegj glob glob is 42",
       "glob prok Silver is 68 Credits",
@@ -42,9 +42,9 @@ describe("Transaction Guide - Full scenario", () => {
     const invalidInput = [
       "how much is pish tegj glob glob ?",
     ];
-    const transactionGuide = new TransactionGuide(invalidInput);
-    transactionGuide.process();
-    const result = transactionGuide.getAnswers();
+    const transactionGuide = new TransactionGuide();
+    transactionGuide.processMany(invalidInput);
+    const result = transactionGuide.getAllOrderedAnswers();
     const expectedOutput = [
       GuideConstants.unknownNoteAnswer,
     ];
@@ -57,9 +57,9 @@ describe("Transaction Guide - Full scenario", () => {
       "glob Silver is 34 Credits",
       "how many Credits is glob glob Sand ?",
     ];
-    const transactionGuide = new TransactionGuide(invalidInput);
-    transactionGuide.process();
-    const result = transactionGuide.getAnswers();
+    const transactionGuide = new TransactionGuide();
+    transactionGuide.processMany(invalidInput);
+    const result = transactionGuide.getAllOrderedAnswers();
     const expectedOutput = [
       GuideConstants.unknownNoteAnswer,
     ];
@@ -68,8 +68,7 @@ describe("Transaction Guide - Full scenario", () => {
 
   test("Should not fail if no notes provided", () => {
     const transactionGuide = new TransactionGuide();
-    transactionGuide.process();
-    const result = transactionGuide.getAnswers();
+    const result = transactionGuide.getAllOrderedAnswers();
     expect(result).toStrictEqual([]);
   });
 
@@ -78,8 +77,8 @@ describe("Transaction Guide - Full scenario", () => {
       const invalidInput = [
         "An invalid message",
       ];
-      const transactionGuide = new TransactionGuide(invalidInput);
-      transactionGuide.process();
+      const transactionGuide = new TransactionGuide();
+      transactionGuide.processMany(invalidInput);
     }).toThrow("Invalid message");
   });
 });

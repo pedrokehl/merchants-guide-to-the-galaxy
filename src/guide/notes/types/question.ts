@@ -6,62 +6,69 @@ import GuideConstants from "../../guide-constants";
 import Note from "../note";
 
 class Question implements Note {
-  public readonly typedNote: string;
-  public answer: string;
-  public isCreditsQuestion: boolean;
-  public keywordsString: string;
+  private isCreditsQuestion: boolean;
+  private keywordsString: string;
+  private keywords: string[];
+  private isValid: boolean;
 
-  constructor(typedNote?: string) {
-    this.typedNote = typedNote;
-    this.onCreate();
+  constructor(public readonly typedNote: string) {
+    this.interpretTypedNote();
   }
 
   public process(): void {
-    answersRepository.set(this.typedNote, this.answer);
+    const answer = this.ask();
+    answersRepository.set(this.typedNote, answer);
   }
 
-  private onCreate(): void {
+  private interpretTypedNote(): void {
     const regexResult = this.typedNote.match(GuideConstants.groupingRegex.question);
     if (!regexResult) {
-      this.answer = this.getInvalidQuestion();
+      this.isValid = false;
       return;
     }
-
     this.isCreditsQuestion = !!regexResult.groups.isCredits;
     this.keywordsString = regexResult.groups.keywords.trim();
-    this.answer = this.formatAnswerForValidQuestion();
+    this.keywords = this.keywordsString.split(" ");
+    this.isValid = true;
   }
 
-  private formatAnswerForValidQuestion(): string {
-    const keywordsArray = this.keywordsString.split(" ");
-    const intergalacticUnits = [...keywordsArray];
-    let suffix = "";
-    let productPrice = null;
-    let intergalacticUnitsValue = null;
-
-    if (this.isCreditsQuestion) {
-      suffix = " Credits";
-      const productName = intergalacticUnits.pop();
-      productPrice = productsRepository.get(productName);
-
-      if (typeof productPrice !== "number") {
-        return this.getInvalidQuestion();
-      }
-    }
-
-    const intergalacticUnitsString = intergalacticUnits.join(" ");
-
-    try {
-      intergalacticUnitsValue = IntergalacticUnitConverter.convertToDecimal(intergalacticUnitsString);
-    } catch {
+  private ask(): string {
+    if (!this.isValid) {
       return this.getInvalidQuestion();
     }
 
-    const value = this.isCreditsQuestion
-      ? intergalacticUnitsValue * productPrice
-      : intergalacticUnitsValue;
+    return this.formatAnswerForValidQuestion(this.keywords);
+  }
 
-    return `${this.keywordsString.trim()} is ${value}${suffix}`;
+  private formatAnswerForValidQuestion(keywords: string[]): string {
+    const suffix = this.isCreditsQuestion ? " Credits" : "";
+
+    try {
+      const value = this.isCreditsQuestion
+        ? this.answerValueForCreditsQuestion(keywords)
+        : this.getIntergalacticUnitsValue(keywords);
+
+      return `${this.keywordsString} is ${value}${suffix}`;
+    } catch (error) {
+      return this.getInvalidQuestion();
+    }
+  }
+
+  private answerValueForCreditsQuestion(keyWords: string[]): number {
+    const productName = keyWords.pop();
+    const productPrice = productsRepository.get(productName);
+
+    if (productPrice === undefined) {
+      throw new Error("Invalid product name");
+    }
+
+    const intergalacticUnitsValue = this.getIntergalacticUnitsValue(keyWords);
+    return intergalacticUnitsValue * productPrice;
+  }
+
+  private getIntergalacticUnitsValue(intergalacticUnits: string[]): number {
+    const intergalacticUnitsString = intergalacticUnits.join(" ");
+    return IntergalacticUnitConverter.convertToDecimal(intergalacticUnitsString);
   }
 
   private getInvalidQuestion(): string {

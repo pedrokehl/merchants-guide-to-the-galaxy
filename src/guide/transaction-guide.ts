@@ -2,21 +2,17 @@ import answersRepository from "../repositories/answers-repository";
 import NoteFactory from "./notes/note-factory";
 
 class TransactionGuide {
-  private readonly typedNotes: string[];
-
-  constructor(typedNotes: string[] = []) {
-    this.typedNotes = typedNotes;
+  public processMany(typedNotes: string[]): void {
+    typedNotes.forEach(this.processOne);
   }
 
-  public process(): void {
-    this.typedNotes.forEach((typedNote) => {
-      const formattedTypedNote = typedNote.trim();
-      const note = NoteFactory.getNote(formattedTypedNote);
-      note.process();
-    });
+  public processOne(typedNote: string): void {
+    const formattedTypedNote = typedNote.trim();
+    const note = NoteFactory.getNote(formattedTypedNote);
+    note.process();
   }
 
-  public getAnswers(): string[] {
+  public getAllOrderedAnswers(): string[] {
     return answersRepository.getAllValues();
   }
 }

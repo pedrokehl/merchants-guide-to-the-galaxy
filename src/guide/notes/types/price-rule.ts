@@ -5,19 +5,17 @@ import GuideConstants from "../../guide-constants";
 import Note from "../note";
 
 class PriceRule implements Note {
-  public readonly typedNote: string;
-  public product: string;
-  public credits: number;
-  public price: number;
-  public units: string;
+  private product: string;
+  private credits: number;
+  private units: string;
 
-  constructor(typedNote: string) {
-    this.typedNote = typedNote;
-    this.onCreate();
+  constructor(public readonly typedNote: string) {
+    this.interpretTypedNote();
   }
 
   public process(): void {
-    productsRepository.set(this.product, this.price);
+    const price = this.calculateProductPrice();
+    productsRepository.set(this.product, price);
   }
 
   private calculateProductPrice(): number {
@@ -25,12 +23,11 @@ class PriceRule implements Note {
     return this.credits / amountOfProduct;
   }
 
-  private onCreate(): void {
+  private interpretTypedNote(): void {
     const regexResult = this.typedNote.match(GuideConstants.groupingRegex.priceRule);
     this.product = regexResult.groups.product;
     this.credits = parseInt(regexResult.groups.value);
     this.units = regexResult.groups.intergalacticUnits.trim();
-    this.price = this.calculateProductPrice();
   }
 }
 
