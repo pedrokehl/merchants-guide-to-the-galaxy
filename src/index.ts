@@ -10,7 +10,7 @@ async function run(): Promise<void> {
 
     const transactionGuide = new TransactionGuide();
     transactionGuide.processMany(lines);
-    const results = transactionGuide.getAllOrderedAnswers();
+    const results = transactionGuide.getAnswers();
 
     OutputProcessor.writeLines(results);
   } catch (e) {

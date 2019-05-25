@@ -1,7 +1,19 @@
-import answersRepository from "../repositories/answers-repository";
 import NoteFactory from "./notes/note-factory";
+import Question from "./notes/types/question";
 
 class TransactionGuide {
+  private questions: Question[] = [];
+
+  constructor() {
+    this.getAnswers = this.getAnswers.bind(this);
+    this.processMany = this.processMany.bind(this);
+    this.processOne = this.processOne.bind(this);
+  }
+
+  public getAnswers(): string[] {
+    return this.questions.map((question) => question.ask());
+  }
+
   public processMany(typedNotes: string[]): void {
     typedNotes.forEach(this.processOne);
   }
@@ -9,11 +21,10 @@ class TransactionGuide {
   public processOne(typedNote: string): void {
     const formattedTypedNote = typedNote.trim();
     const note = NoteFactory.getNote(formattedTypedNote);
+    if (note instanceof Question) {
+      this.questions.push(note);
+    }
     note.process();
-  }
-
-  public getAllOrderedAnswers(): string[] {
-    return answersRepository.getAllValues();
   }
 }
 

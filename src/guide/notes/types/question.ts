@@ -1,4 +1,3 @@
-import answersRepository from "../../../repositories/answers-repository";
 import productsRepository from "../../../repositories/products-repository";
 import IntergalacticUnitConverter from "../../../utils/intergalactic-unit-converter";
 
@@ -15,9 +14,16 @@ class Question implements Note {
     this.interpretTypedNote();
   }
 
+  public ask(): string {
+    try {
+      return this.getValidAnswer(this.keywords);
+    } catch {
+      return this.getAnswerForInvalidQuestion();
+    }
+  }
+
   public process(): void {
-    const answer = this.ask();
-    answersRepository.set(this.typedNote, answer);
+    return;
   }
 
   private interpretTypedNote(): void {
@@ -32,26 +38,18 @@ class Question implements Note {
     this.isValid = true;
   }
 
-  private ask(): string {
+  private getValidAnswer(keywords: string[]): string {
     if (!this.isValid) {
-      return this.getInvalidQuestion();
+      throw new Error("Invalid question");
     }
 
-    return this.formatAnswerForValidQuestion(this.keywords);
-  }
-
-  private formatAnswerForValidQuestion(keywords: string[]): string {
     const suffix = this.isCreditsQuestion ? " Credits" : "";
 
-    try {
-      const value = this.isCreditsQuestion
-        ? this.answerValueForCreditsQuestion(keywords)
-        : this.getIntergalacticUnitsValue(keywords);
+    const value = this.isCreditsQuestion
+      ? this.answerValueForCreditsQuestion(keywords)
+      : this.getIntergalacticUnitsValue(keywords);
 
-      return `${this.keywordsString} is ${value}${suffix}`;
-    } catch (error) {
-      return this.getInvalidQuestion();
-    }
+    return `${this.keywordsString} is ${value}${suffix}`;
   }
 
   private answerValueForCreditsQuestion(keyWords: string[]): number {
@@ -71,7 +69,7 @@ class Question implements Note {
     return IntergalacticUnitConverter.convertToDecimal(intergalacticUnitsString);
   }
 
-  private getInvalidQuestion(): string {
+  private getAnswerForInvalidQuestion(): string {
     return GuideConstants.unknownNoteAnswer;
   }
 }

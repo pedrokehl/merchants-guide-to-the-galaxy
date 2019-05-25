@@ -1,14 +1,13 @@
 import GuideConstants from "../../src/guide/guide-constants";
 import TransactionGuide from "../../src/guide/transaction-guide";
-import answersRepository from "../../src/repositories/answers-repository";
 import intergalacticUnitsRepository from "../../src/repositories/intergalactic-units-repository";
 import productsRepository from "../../src/repositories/products-repository";
 
 afterEach(() => {
-  answersRepository.data.clear();
   intergalacticUnitsRepository.data.clear();
   productsRepository.data.clear();
 });
+
 describe("Transaction Guide - Full scenario", () => {
   test("Should work fine with the example scenario", () => {
     const input = [
@@ -27,7 +26,7 @@ describe("Transaction Guide - Full scenario", () => {
     ];
     const transactionGuide = new TransactionGuide();
     transactionGuide.processMany(input);
-    const result = transactionGuide.getAllOrderedAnswers();
+    const result = transactionGuide.getAnswers();
     const expectedOutput = [
       "pish tegj glob glob is 42",
       "glob prok Silver is 68 Credits",
@@ -44,7 +43,7 @@ describe("Transaction Guide - Full scenario", () => {
     ];
     const transactionGuide = new TransactionGuide();
     transactionGuide.processMany(invalidInput);
-    const result = transactionGuide.getAllOrderedAnswers();
+    const result = transactionGuide.getAnswers();
     const expectedOutput = [
       GuideConstants.unknownNoteAnswer,
     ];
@@ -59,7 +58,7 @@ describe("Transaction Guide - Full scenario", () => {
     ];
     const transactionGuide = new TransactionGuide();
     transactionGuide.processMany(invalidInput);
-    const result = transactionGuide.getAllOrderedAnswers();
+    const result = transactionGuide.getAnswers();
     const expectedOutput = [
       GuideConstants.unknownNoteAnswer,
     ];
@@ -68,7 +67,7 @@ describe("Transaction Guide - Full scenario", () => {
 
   test("Should not fail if no notes provided", () => {
     const transactionGuide = new TransactionGuide();
-    const result = transactionGuide.getAllOrderedAnswers();
+    const result = transactionGuide.getAnswers();
     expect(result).toStrictEqual([]);
   });
 
